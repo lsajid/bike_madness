@@ -1,1 +1,8 @@
 bin
+.metadata/
+.settings/
+
+# External tool configuration
+.project
+.classpath
+.factorypath
