@@ -1,8 +1,11 @@
 package src;
 
 import java.applet.*;
+
+
 import java.awt.*;
 import java.awt.event.*;
+
 @SuppressWarnings("removal")
 public class Game extends Applet implements Runnable, KeyListener,MouseListener,MouseMotionListener{
 	Image off_screen;
