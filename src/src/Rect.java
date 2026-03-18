@@ -1,4 +1,4 @@
-package src;
+
 import java.awt.Graphics;
 public class Rect {
     int x;
@@ -33,4 +33,11 @@ public class Rect {
         x += dx;
         y += dy;
     }
+    
+	public boolean contains(int mx, int my) {
+		return (mx > x)      && 
+			   (my > y)      && 
+			   (mx < x + this.width)  && 
+			   (my < y + this.height);
+	}
 }
