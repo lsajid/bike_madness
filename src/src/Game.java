@@ -1,5 +1,4 @@
 package src;
-
 import java.applet.*;
 
 
@@ -28,6 +27,19 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	int mx;
 	int my;
 	
+	
+	TitleScreen titleScreen = new TitleScreen("image/title.PNG", 800, 900);
+	
+	static final int TITLE = 0;
+	static final int PLAYING = 1;
+	static final int PAUSED = 2;
+
+	int gameState = TITLE;
+	
+	Image buttonImage = Toolkit.getDefaultToolkit().getImage("image/play.PNG");;
+	Rect playButton;
+	
+	
 
 	
 	// the operating sytem calls update which then calls paint
@@ -42,24 +54,34 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		
 		this.g = g;
 			
-		
-		
-		if (r1.overlaps(r2) || r1.overlaps(r3)){
-			g.setColor(Color.red);
+		// In Game.paint():
+		if (gameState == TITLE) {
+		    titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
+		    drawPlayButton(g); // draws the play button
 		}
+		else if (this.gameState == PAUSED) {
+			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
+		}
+		else {
+			if (r1.overlaps(r2) || r1.overlaps(r3)){
+				g.setColor(Color.red);
+			}
+		
 		r1.draw(g);
 		g.setColor(Color.black);
 		r2.draw(g);
 		r3.draw(g);
 		dragRect.draw(g);
 		
-		
+		}
 	}
 	
 	
 	public void run() {
 		//This is the game loop
 		while(true) {
+			
+			if(this.gameState == PLAYING) {
 			//this code will execute 60 times a second
 			if (pressingUP)r1.moveBy(0, -3);
 			if (pressingDN) r1.moveBy(0, 3);
@@ -67,7 +89,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			if (pressingRT) r1.moveBy(3, 0);
 			//r1.moveBy(1,1);//we must find out what the user wants to do (get user input). 
 			//r2.moveBy(5,0);
-			
+			}
 			
 			//r3.moveBy(0, -3);
 			//find how the objects in the game will move
@@ -92,7 +114,10 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		
 		off_screen = this.createImage(1920, 1080);
 		off_screen_g = off_screen.getGraphics();
+		
+//		buttonImage = Toolkit.getDefaultToolkit().getImage("play.PNG");
 	}
+	
 	
 	public void keyPressed(KeyEvent e) {
 		// Moving objects here will by cause sync issues as it would bypass the gameloop
@@ -102,6 +127,18 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		if (code == KeyEvent.VK_DOWN)pressingDN = true;
 		if (code == KeyEvent.VK_LEFT)pressingLT = true;
 		if (code == KeyEvent.VK_RIGHT) pressingRT = true;
+		
+		
+		//to pause or resume game using space button for pause
+		  if (code == KeyEvent.VK_SPACE) {
+		        if (gameState == PLAYING) {
+		            gameState = PAUSED;
+		        }
+		        
+		        else if (gameState == PAUSED) {
+		            gameState = PLAYING;
+		        }
+		    }
 		
 	}
 	
@@ -117,51 +154,56 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		// if you move the mouse after the press it wont count as a click//
 	}
 
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		//mouse entered window
 	}
 
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+	
 		// mouse exited window
 	}
 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		this.mx = e.getX();
 		this.my = e.getY();
+
+
+		    if (gameState == 0 && playButton.contains(mx, my)) {
+		        gameState = PLAYING; //starts the game
+		    }
 	System.out.println("X: "+ Integer.toString(e.getX())+ " Y: " + Integer.toString(e.getY()));	
 	}
 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		dragRect = new Rect(0,0,0,0);
 	}
 
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
+
 		System.out.println("mouse Dragged");
 		int nx = e.getX();
 		int ny = e.getY();
 		
 		int w = nx-mx;
 		int h= ny-my;
-		
+		 
 		dragRect = new Rect(mx,my,w,h);
 		
 	
@@ -170,8 +212,21 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
+	
 		
+	}
+	
+	private void drawPlayButton(Graphics g) {
+
+	    int buttonWidth = (int)(getWidth() * 0.3);
+	    int buttonHeight = (int)(getHeight() * 0.15);
+
+	    int x = (getWidth() - buttonWidth) / 2 ;
+	    int y = (getHeight() - buttonHeight) / 2 + 120;
+
+	    playButton = new Rect(x, y, buttonWidth, buttonHeight);
+
+	    g.drawImage(buttonImage, x, y, buttonWidth, buttonHeight, null);
 	}
 	
 
