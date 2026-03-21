@@ -1,4 +1,4 @@
-
+package src;
 import java.applet.*;
 
 
@@ -28,7 +28,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	int my;
 	
 	
-	TitleScreen titleScreen = new TitleScreen("title.PNG", 800, 900);
+	TitleScreen titleScreen = new TitleScreen("image/title.PNG", 800, 900);
 	
 	static final int TITLE = 0;
 	static final int PLAYING = 1;
@@ -36,7 +36,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 
 	int gameState = TITLE;
 	
-	Image buttonImage = Toolkit.getDefaultToolkit().getImage("play.PNG");;
+	Image buttonImage = Toolkit.getDefaultToolkit().getImage("image/play.PNG");;
 	Rect playButton;
 	
 	
