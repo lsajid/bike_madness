@@ -13,12 +13,10 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	// THe main method is already defined in applet but paint method is ran automatically
 	
 	Thread t;
-	Rect[] rectangles = new Rect[10];
-	Rect r1 = new Rect(10,10,100,100);
-	Rect r2 = new Rect(50,50,100,100);
-	Rect r3 = new Rect(10,50,100,100);
 	
 	Rect dragRect = new Rect(0,0,0,0);
+	static int Width;
+	static int Height;
 	boolean pressingUP = false;
 	boolean pressingDN = false;
 	boolean pressingLT = false;
@@ -26,6 +24,8 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	
 	int mx;
 	int my;
+	
+	
 	
 	
 	TitleScreen titleScreen = new TitleScreen("image/title.PNG", 800, 900);
@@ -40,14 +40,19 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	Rect playButton;
 	
 	
-
+	Level level1 = new Level("level1");
 	
-	// the operating sytem calls update which then calls paint
+	// the operating system calls update which then calls paint
 	public void update(Graphics g) {
+		Width = getWidth();
+		Height = getHeight();
+		
 		off_screen_g.clearRect(0, 0, 1920, 1080); // clear the off sceen image
 		paint(off_screen_g); // paint
 		g.drawImage(off_screen,0,0,null);
 	}
+	
+	
 	public void paint(Graphics g) {
 		// (0,0) is the top left of the screen
 		// Y increases as you move down and X increases as you go right
@@ -63,36 +68,32 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
 		}
 		else {
-			if (r1.overlaps(r2) || r1.overlaps(r3)){
-				g.setColor(Color.red);
-			}
-		
-		r1.draw(g);
-		g.setColor(Color.black);
-		r2.draw(g);
-		r3.draw(g);
-		dragRect.draw(g);
-		
+
+			
+			level1.draw(g);
+			dragRect.draw(g);
 		}
 	}
 	
 	
 	public void run() {
 		//This is the game loop
+		
 		while(true) {
+			//this code will execute 60 times a second
 			
 			if(this.gameState == PLAYING) {
-			//this code will execute 60 times a second
-			if (pressingUP)r1.moveBy(0, -3);
-			if (pressingDN) r1.moveBy(0, 3);
-			if (pressingLT) r1.moveBy(-3, 0);
-			if (pressingRT) r1.moveBy(3, 0);
-			//r1.moveBy(1,1);//we must find out what the user wants to do (get user input). 
-			//r2.moveBy(5,0);
+			
+			//find how the objects in the game will move
+//			if (pressingUP)r1.moveBy(0, -3);
+//			if (pressingDN) r1.moveBy(0, 3);
+//			if (pressingLT) r1.moveBy(-3, 0);
+//			if (pressingRT) r1.moveBy(3, 0);
+//			
 			}
 			
-			//r3.moveBy(0, -3);
-			//find how the objects in the game will move
+			
+			
 			// collision detection
 			repaint();//tells OS window needs to be painted (this is the lowest priority item)
 			
@@ -197,7 +198,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
-		System.out.println("mouse Dragged");
+		
 		int nx = e.getX();
 		int ny = e.getY();
 		
@@ -206,6 +207,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		 
 		dragRect = new Rect(mx,my,w,h);
 		
+		System.out.println("Rectangle: X: " + dragRect.x + " Y: " + dragRect.y + " Width: " + dragRect.width  + " Height: " + dragRect.height  );
 	
 	}
 
