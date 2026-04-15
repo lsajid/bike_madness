@@ -15,8 +15,10 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	Thread t;
 	
 	Rect dragRect = new Rect(0,0,0,0);
+	
 	static int Width;
 	static int Height;
+	
 	boolean pressingUP = false;
 	boolean pressingDN = false;
 	boolean pressingLT = false;
@@ -25,7 +27,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	int mx;
 	int my;
 	
-	
+	static Player player = new Player(0,0);
 	
 	
 	TitleScreen titleScreen = new TitleScreen("image/title.PNG", 800, 900);
@@ -68,9 +70,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
 		}
 		else {
-
 			
 			level1.draw(g);
+			player.draw(g);
 			dragRect.draw(g);
 		}
 	}
@@ -85,15 +87,13 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			if(this.gameState == PLAYING) {
 			
 			//find how the objects in the game will move
-//			if (pressingUP)r1.moveBy(0, -3);
-//			if (pressingDN) r1.moveBy(0, 3);
-//			if (pressingLT) r1.moveBy(-3, 0);
-//			if (pressingRT) r1.moveBy(3, 0);
-//			
+			if (pressingUP)	player.wheelie();
+			if (pressingDN) player.wheelieEnd();
+			if (pressingLT) player.moveLeft();
+			if (pressingRT) player.moveRight();
 			}
 			
-			
-			
+			player.update();
 			// collision detection
 			repaint();//tells OS window needs to be painted (this is the lowest priority item)
 			

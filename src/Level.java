@@ -25,6 +25,8 @@ public class Level {
 	
 	
 	public void load(){
+		Game.player.x = 0;
+		Game.player.y = 873-Game.player.height;
 		File file = new File("levels/" + levelName + "/Rectangles.txt");
 		
 		LevelLoader levelLoader = new LevelLoader();
