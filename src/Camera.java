@@ -8,11 +8,13 @@ public class Camera {
 	
 	public static void moveLeft(int dx)
 	{
+		System.out.println("camera moving left ...");
 		x -= dx;
 	}
 	
 	public static void moveRight(int dx)
 	{
+		System.out.println("camera moving right ...");
 		x += dx;
 	}
 	

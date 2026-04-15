@@ -29,6 +29,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	
 	
 	TitleScreen titleScreen = new TitleScreen("image/title.PNG", 800, 900);
+	ImageLayer sky = new ImageLayer("image/title.PNG", 0,0, 800, 900);
+	Camera camera = new Camera(0,0);
+	
 	
 	static final int TITLE = 0;
 	static final int PLAYING = 1;
@@ -68,10 +71,10 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
 		}
 		else {
-
-			
+			sky.draw(g);
 			level1.draw(g);
 			dragRect.draw(g);
+			
 		}
 	}
 	
@@ -87,8 +90,8 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			//find how the objects in the game will move
 //			if (pressingUP)r1.moveBy(0, -3);
 //			if (pressingDN) r1.moveBy(0, 3);
-//			if (pressingLT) r1.moveBy(-3, 0);
-//			if (pressingRT) r1.moveBy(3, 0);
+			if (pressingLT) Camera.moveRight(2);
+			if (pressingRT) Camera.moveLeft(2);
 //			
 			}
 			
