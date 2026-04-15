@@ -73,11 +73,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
 		}
 		else {
-<<<<<<< HEAD
-			sky.draw(g);
-=======
 			
->>>>>>> main
 			level1.draw(g);
 			player.draw(g);
 			dragRect.draw(g);
