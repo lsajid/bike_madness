@@ -43,8 +43,8 @@ public class Level {
             		levelObjects.add(r);
             	}
             	
-            	//System.out.println(line);
-                
+            	// System.out.println(line);
+            	
             }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
