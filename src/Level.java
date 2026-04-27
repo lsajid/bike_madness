@@ -45,10 +45,10 @@ public class Level {
             		levelObjects.add(r);
             	}
             	
-            	//System.out.println(line);
                
             	xStart = levelObjects.get(0).x;
             	yStart = levelObjects.get(0).y-Game.player.height;
+
             }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());

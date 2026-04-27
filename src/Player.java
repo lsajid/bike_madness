@@ -54,12 +54,11 @@ public class Player extends Rect{
 		else if (speed > 0) speed -= resistance;
 		this.x += speed;
 	}
+	
 	public void draw(Graphics g) {
 		
 		g.drawImage(animations[action].nextImage(),x,y,width,height,null);
 		
-	
 		super.draw(g);
 	}
-	
 }
