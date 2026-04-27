@@ -35,6 +35,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	
 	
 	TitleScreen titleScreen = new TitleScreen("image/title.PNG", 800, 900);
+	ImageLayer sky = new ImageLayer("image/title.PNG", 0,0, 800, 900);
+	Camera camera = new Camera(0,0);
+	
 	
 	static final int TITLE = 0;
 	static final int PLAYING = 1;
@@ -46,6 +49,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	Rect playButton;
 	
 	
+	
+	Line line2 = new Line(270, 888, 509, 692);
+//	Line line1 = new Line(500, 700, 800, 900);
 	
 	// the operating system calls update which then calls paint
 	public void update(Graphics g) {
@@ -70,13 +76,15 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		    drawPlayButton(g); // draws the play button
 		}
 		else if (this.gameState == PAUSED) {
-			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
+//			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
 		}
 		else {
 			
+
 			currentLevel.draw(g);
 			player.draw(g);
 			dragRect.draw(g);
+			line2.draw(g);
 		}
 	}
 	
@@ -100,6 +108,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			}
 			
 			player.update();
+			player.rideRamp(line2.x1, line2.y1, line2.x2, line2.y2);
 			// collision detection
 			repaint();//tells OS window needs to be painted (this is the lowest priority item)
 			
