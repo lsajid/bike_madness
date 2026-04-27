@@ -13,6 +13,8 @@ public class Level {
 	
 	String levelName;
 	Image img ;
+	int xStart;
+	int yStart;
 	
 	ArrayList<Rect> levelObjects = new ArrayList <Rect>();;
 	
@@ -44,7 +46,9 @@ public class Level {
             	}
             	
             	//System.out.println(line);
-                
+               
+            	xStart = levelObjects.get(0).x;
+            	yStart = levelObjects.get(0).y-Game.player.height;
             }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());

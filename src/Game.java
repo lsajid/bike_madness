@@ -16,13 +16,17 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	
 	Rect dragRect = new Rect(0,0,0,0);
 	
-	static int Width;
-	static int Height;
+	static int Width = 1920;
+	static int Height=  1080;
+	
+	LevelManager levelManager = new LevelManager();
+	public static Level currentLevel;
 	
 	boolean pressingUP = false;
 	boolean pressingDN = false;
 	boolean pressingLT = false;
 	boolean pressingRT = false;
+	boolean pressingN = false;
 	
 	int mx;
 	int my;
@@ -42,7 +46,6 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	Rect playButton;
 	
 	
-	Level level1 = new Level("level1");
 	
 	// the operating system calls update which then calls paint
 	public void update(Graphics g) {
@@ -71,7 +74,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		}
 		else {
 			
-			level1.draw(g);
+			currentLevel.draw(g);
 			player.draw(g);
 			dragRect.draw(g);
 		}
@@ -91,6 +94,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			if (pressingDN) player.wheelieEnd();
 			if (pressingLT) player.moveLeft();
 			if (pressingRT) player.moveRight();
+			
+			// for development purposes can skip levels
+			if (pressingN) levelManager.goNextLevel();
 			}
 			
 			player.update();
@@ -116,6 +122,8 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		off_screen = this.createImage(1920, 1080);
 		off_screen_g = off_screen.getGraphics();
 		
+		levelManager.loadLevels();
+		currentLevel = levelManager.getCurrent();
 //		buttonImage = Toolkit.getDefaultToolkit().getImage("play.PNG");
 	}
 	
@@ -128,7 +136,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		if (code == KeyEvent.VK_DOWN)pressingDN = true;
 		if (code == KeyEvent.VK_LEFT)pressingLT = true;
 		if (code == KeyEvent.VK_RIGHT) pressingRT = true;
-		
+		if (code == KeyEvent.VK_N) pressingN = true;
 		
 		//to pause or resume game using space button for pause
 		  if (code == KeyEvent.VK_SPACE) {
@@ -149,6 +157,8 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		if (code == KeyEvent.VK_DOWN)pressingDN = false;
 		if (code == KeyEvent.VK_LEFT)pressingLT = false;
 		if (code == KeyEvent.VK_RIGHT) pressingRT = false;
+		if (code == KeyEvent.VK_RIGHT) pressingRT = false;
+		if (code == KeyEvent.VK_N) pressingN = false;
 	}
 	public void keyTyped(KeyEvent e) {}
 
@@ -207,7 +217,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		 
 		dragRect = new Rect(mx,my,w,h);
 		
-		System.out.println("Rectangle: X: " + dragRect.x + " Y: " + dragRect.y + " Width: " + dragRect.width  + " Height: " + dragRect.height  );
+		System.out.println("Rectangle X " + dragRect.x + " Y " + dragRect.y + " Width " + dragRect.width  + " Height " + dragRect.height  );
 	
 	}
 
