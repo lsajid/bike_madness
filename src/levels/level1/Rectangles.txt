@@ -1,3 +1,4 @@
-Rectangle X 0 Y 873 Width 1035 Height 156
-Rectangle X 1371 Y 874 Width 548 Height 162
-Rectangle X 1197 Y 595 Width 38 Height 109
+Rectangle 0 873 1035 156
+Line 270 888 509 692
+Rectangle 1371 874 548 162
+Rectangle 1197 595 38 109

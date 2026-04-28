@@ -1,7 +1,7 @@
 
 import java.awt.Graphics;
 
-public class Rect {
+public class Rect implements Drawable {
     int x;
     int y;
     int width;
@@ -21,7 +21,15 @@ public class Rect {
         this.height = height;
     }
 
+    public Rect(int [] params) {
+    	this.x = params[0];
+        this.y = params[1];
 
+        this.oldY = y;
+        
+        this.width = params[2];
+        this.height = params[3];
+    }
     public boolean overlaps(Rect r) {
         return (x <= r.x + r.width) &&
                 (y <= r.y + r.height) &&
@@ -100,5 +108,9 @@ public class Rect {
         }
     }
 }
+
+	public int getX() {return this.x;}
+
+	public int getY() {return this.y;}
 	
 }

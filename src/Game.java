@@ -1,9 +1,13 @@
 
-import java.applet.*;
-
-
-import java.awt.*;
-import java.awt.event.*;
+import java.applet.Applet;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 @SuppressWarnings("removal")
 public class Game extends Applet implements Runnable, KeyListener,MouseListener,MouseMotionListener{
@@ -49,10 +53,6 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	Rect playButton;
 	
 	
-	
-	Line line2 = new Line(270, 888, 509, 692);
-//	Line line1 = new Line(500, 700, 800, 900);
-	
 	// the operating system calls update which then calls paint
 	public void update(Graphics g) {
 		Width = getWidth();
@@ -84,7 +84,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			currentLevel.draw(g);
 			player.draw(g);
 			dragRect.draw(g);
-			line2.draw(g);
+
 		}
 	}
 	
@@ -105,10 +105,14 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			
 			// for development purposes can skip levels
 			if (pressingN) levelManager.goNextLevel();
-			}
+			
 			
 			player.update();
-			player.rideRamp(line2.x1, line2.y1, line2.x2, line2.y2);
+			for (int i=0;i< currentLevel.ramps.size();i++) {
+				Line ramp = currentLevel.ramps.get(i);
+				player.rideRamp(ramp.x1, ramp.y1, ramp.x2, ramp.y2);
+			}	
+			}
 			// collision detection
 			repaint();//tells OS window needs to be painted (this is the lowest priority item)
 			

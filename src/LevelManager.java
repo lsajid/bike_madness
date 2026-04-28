@@ -10,10 +10,12 @@ public void loadLevels() {
 	File[] folders = dir.listFiles(File::isDirectory);
 	int numLevel = folders.length;
 	levels = new Level [numLevel];
-	System.out.println("Number of levels: "+ folders.length);
 	for (int i = 0 ;i < numLevel; i++) {
 		levels[i] = new Level("level" + (i+1));
 	}
+	
+	Game.player.x = levels[0].xStart;
+	Game.player.y = levels[0].yStart;
 }
 
 public Level getCurrent() {
