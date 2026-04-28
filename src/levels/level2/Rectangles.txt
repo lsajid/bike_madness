@@ -1,2 +1,2 @@
-Rectangle X 0 Y 771 Width 741 Height 122
-Rectangle X 747 Y 771 Width 222 Height 122
+Rectangle 0 771 741 122
+Rectangle 747 771 222 122

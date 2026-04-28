@@ -16,8 +16,11 @@ public class Level {
 	int xStart;
 	int yStart;
 	
-	ArrayList<Rect> levelObjects = new ArrayList <Rect>();;
 	
+	int Rectangle = 0;
+	int Line = 1;
+	ArrayList<Drawable> levelObjects = new ArrayList <Drawable>();
+	ArrayList<Line> ramps = new ArrayList <Line>();
 	public Level(String levelName) {
 		this.levelName = levelName;
 		this.img = Toolkit.getDefaultToolkit().getImage("levels/" + levelName +"/"+ levelName + ".png");
@@ -27,8 +30,7 @@ public class Level {
 	
 	
 	public void load(){
-		Game.player.x = 0;
-		Game.player.y = 873-Game.player.height;
+
 		File file = new File("levels/" + levelName + "/Rectangles.txt");
 		
 		LevelLoader levelLoader = new LevelLoader();
@@ -37,17 +39,26 @@ public class Level {
             
             // readLine() returns null when it reaches the end of the file
             while ((line = br.readLine()) != null) {
-            	int [] objInfo = levelLoader.getObjInfo(line);
+            	Object [] objInfo = levelLoader.getObjInfo(line);
+            	
+            	int objType = (int) objInfo[0];
+            	int [] objParams = (int[]) objInfo[1];
             	
             	// 0 Means rectangle
-            	if (objInfo[0] == 0) {
-            		Rect r = new Rect(objInfo[1],objInfo[2],objInfo[3],objInfo[4]);
+            	if (objType == Rectangle) {
+            		Rect r = new Rect(objParams);
             		levelObjects.add(r);
             	}
             	
-               
-            	xStart = levelObjects.get(0).x;
-            	yStart = levelObjects.get(0).y-Game.player.height;
+            	else if (objType == Line) {
+            		Line l = new Line(objParams);
+            		levelObjects.add(l);
+            		ramps.add(l);
+            	}
+            	
+               // the player spawn in at the location of the first level Object
+            	xStart = levelObjects.get(0).getX();
+            	yStart = levelObjects.get(0).getY()-Game.player.height;
 
             }
         } catch (IOException e) {
