@@ -35,6 +35,8 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	int mx;
 	int my;
 	
+	static int physics_g = 4;
+	
 	static Player player = new Player(0,0);
 	
 	
@@ -84,7 +86,8 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			currentLevel.draw(g);
 			player.draw(g);
 			dragRect.draw(g);
-
+			
+			
 		}
 	}
 	
@@ -108,14 +111,37 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			
 			
 			player.update();
+			
+			// collision detection
+			
+			
+			
+			//check if the player is on any of the ground platforms
+			boolean playerGrounded = false;
+			
+			
+			for(int i =0; i<currentLevel.ground.size();i++ ) {
+				Rect curr = currentLevel.ground.get(i);
+				
+				if(player.overlaps(curr)) {
+					curr.pushes(player);
+				}
+				if(player.isOnTop(curr)) {
+					playerGrounded = true;
+				}
+				
+			}
+			
+			player.grounded = playerGrounded;
+			
+			
 			for (int i=0;i< currentLevel.ramps.size();i++) {
 				Line ramp = currentLevel.ramps.get(i);
 				player.rideRamp(ramp.x1, ramp.y1, ramp.x2, ramp.y2);
 			}	
 
-			// collision detection
-
-			if(player.overlaps(currentLevel.finishLine)) {
+	
+			if(player.isOnTop(currentLevel.finishLine)) {
 				levelManager.goNextLevel();
 			}
 			}
