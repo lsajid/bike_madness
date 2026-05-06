@@ -5,8 +5,10 @@ public class Player extends Rect{
 	
 	Image img;
 	
-	Double max_speed = 10.0;
+	Double max_speed = 18.0;
 	Double speed = 0.0;
+	Double vy=0.0;
+	Double vx=0.0;
 	Double acceleration = (double) (max_speed/60);
 	Double brakeForce = (double) (max_speed/30);
 	Double resistance = .05;
@@ -32,11 +34,12 @@ public class Player extends Rect{
 	}
 	
 	public void moveLeft() {
-		if (speed > -max_speed) speed -= brakeForce;
+		if (vx > -max_speed) vx -= brakeForce;
+		
 	}
 	
 	public void moveRight() {
-		if (speed < max_speed) speed += acceleration;
+		if (vx < max_speed) vx += acceleration;
 		
 	}
 	
@@ -53,14 +56,18 @@ public class Player extends Rect{
 	public void jump() {}
 	
 	public void update() {
-		if (speed < 0)speed += resistance;
-		else if (speed > 0) speed -= resistance;
-		
-		this.x += speed;
+		if (vx < 0)vx += resistance;
+		else if (vx > 0) vx -= resistance;
 		
 		if(!grounded) {
-			this.y+=1;
+			this.vy = (double) Game.physics_g;
 		}
+		else {
+			 vy = 0.0; 
+		}
+		this.x += vx;
+		this.y+=vy;
+		
 	}
 	
 	

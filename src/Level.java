@@ -23,6 +23,8 @@ public class Level {
 	
 	ArrayList<Drawable> levelObjects = new ArrayList <Drawable>();
 	ArrayList<Line> ramps = new ArrayList <Line>();
+	ArrayList<Rect> ground = new ArrayList<Rect>();
+	
 	
 	Rect finishLine ;
 	
@@ -53,6 +55,7 @@ public class Level {
             	if (objType == Rectangle) {
             		Rect r = new Rect(objParams);
             		levelObjects.add(r);
+            		ground.add(r);
             	}
             	
             	else if (objType == Line) {
@@ -62,7 +65,7 @@ public class Level {
             	}
             	else if (objType== Ring) {
             		Ring r = new Ring(objParams);
-            		levelObjects.add(r);
+//            		levelObjects.add(r);
             		
             	}
        
