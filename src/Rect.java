@@ -80,34 +80,7 @@ public class Rect implements Drawable {
 		pushLeft(r);		
 	}
 	
-	
-	public void rideRamp(double lineX1, double lineY1, double lineX2, double lineY2) {
-	// the parameters are the line coordinates
-    
-    double centerX = x + width / 2.0;// Calculates the center of the soldier
 
-    //checks if the soldier is  above the ramp
-    if (centerX >= Math.min(lineX1, lineX2) && centerX <= Math.max(lineX1, lineX2)) {
-        
-        double slope = (lineY2 - lineY1) / (lineX2 - lineX1);
-        double rampY = slope * (centerX - lineX1) + lineY1;
-
-        // Checks if we are currently touching or have passed through the ramp
-        
-       
-        if (y + height >= rampY - 2 && height <= rampY + 2) {
-            
-            
-            this.y = (int) (rampY - height);
-            
-            // Stops falling velocity of the sodier so it stops on the ramp
-			// this.vx = 0;
-			// this.vy = 0;
-            
-           
-        }
-    }
-}
 
 	public int getX() {return this.x;}
 

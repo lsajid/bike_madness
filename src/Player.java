@@ -4,11 +4,14 @@ import java.awt.geom.AffineTransform;
 public class Player extends Rect{
 	
 	Image img;
+	
 	Double max_speed = 10.0;
 	Double speed = 0.0;
 	Double acceleration = (double) (max_speed/60);
 	Double brakeForce = (double) (max_speed/30);
 	Double resistance = .05;
+	Boolean grounded= true;
+	
 	Animation[] animations;
 
 	Animation wheelie = new Animation("image/wheelie.png",7,120,80,8,false);
@@ -52,8 +55,41 @@ public class Player extends Rect{
 	public void update() {
 		if (speed < 0)speed += resistance;
 		else if (speed > 0) speed -= resistance;
+		
 		this.x += speed;
+		
+		if(!grounded) {
+			this.y+=1;
+		}
 	}
+	
+	
+	public void rideRamp(double lineX1, double lineY1, double lineX2, double lineY2) {
+	// the parameters are the line coordinates
+    
+    double centerX = x + width / 2.0;// Calculates the center of the soldier
+
+    //checks if the soldier is  above the ramp
+    if (centerX >= Math.min(lineX1, lineX2) && centerX <= Math.max(lineX1, lineX2)) {
+        
+        double slope = (lineY2 - lineY1) / (lineX2 - lineX1);
+        double rampY = slope * (centerX - lineX1) + lineY1;
+
+        // Checks if we are currently touching or have passed through the ramp
+        
+       
+        if (y + height >= rampY - 2 && height <= rampY + 2) {
+            
+         
+            this.y = (int) (rampY - height);
+            // Stops falling velocity of the sodier so it stops on the ramp
+			// this.vx = 0;
+			// this.vy = 0;
+            
+           
+        }
+    }
+}
 	
 	public void draw(Graphics g) {
 		

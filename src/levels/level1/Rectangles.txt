@@ -1,4 +1,4 @@
 Rectangle 0 873 1035 156
 Line 270 888 509 692
+Ring 1185 589
 Rectangle 1371 874 548 162
-Rectangle 1197 595 38 109

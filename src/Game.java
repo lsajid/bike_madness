@@ -112,8 +112,15 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 				Line ramp = currentLevel.ramps.get(i);
 				player.rideRamp(ramp.x1, ramp.y1, ramp.x2, ramp.y2);
 			}	
-			}
+
 			// collision detection
+
+			if(player.overlaps(currentLevel.finishLine)) {
+				levelManager.goNextLevel();
+			}
+			}
+			
+			
 			repaint();//tells OS window needs to be painted (this is the lowest priority item)
 			
 			

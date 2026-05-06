@@ -19,8 +19,13 @@ public class Level {
 	
 	int Rectangle = 0;
 	int Line = 1;
+	int Ring =2;
+	
 	ArrayList<Drawable> levelObjects = new ArrayList <Drawable>();
 	ArrayList<Line> ramps = new ArrayList <Line>();
+	
+	Rect finishLine ;
+	
 	public Level(String levelName) {
 		this.levelName = levelName;
 		this.img = Toolkit.getDefaultToolkit().getImage("levels/" + levelName +"/"+ levelName + ".png");
@@ -55,12 +60,20 @@ public class Level {
             		levelObjects.add(l);
             		ramps.add(l);
             	}
-            	
-               // the player spawn in at the location of the first level Object
-            	xStart = levelObjects.get(0).getX();
-            	yStart = levelObjects.get(0).getY()-Game.player.height;
-
+            	else if (objType== Ring) {
+            		Ring r = new Ring(objParams);
+            		levelObjects.add(r);
+            		
+            	}
+       
             }
+            // the player spawn in at the location of the first level Object
+        	xStart = levelObjects.get(0).getX();
+        	yStart = levelObjects.get(0).getY()-Game.player.height;
+        	//The final object in the rect.txt must be a rectangle indicating the end of level
+        	
+        	this.finishLine= (Rect) levelObjects.get(levelObjects.size()-1);
+
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         }

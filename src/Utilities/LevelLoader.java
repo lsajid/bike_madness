@@ -5,6 +5,7 @@ public class LevelLoader {
 	public static HashMap<String, Integer> Objects = new HashMap<String, Integer>() {{
 	    put("Rectangle", 0);
 	    put("Line", 1);
+	    put("Ring", 2);
 	}};
 	
 	public Object[] getObjInfo(String s) {
