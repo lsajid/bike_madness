@@ -41,9 +41,12 @@ public class Rect implements Drawable {
     // Quicker Draw Method
 
     public void draw(Graphics g) {
+        g.drawRect(x-Camera.x, y-Camera.y, width, height);
+    }
+    
+    public void drawAbsolute(Graphics g) {
         g.drawRect(x, y, width, height);
     }
-
     public void moveBy(int dx, int dy) {
         x += dx;
         y += dy;

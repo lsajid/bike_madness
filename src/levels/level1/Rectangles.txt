@@ -2,3 +2,4 @@ Rectangle 0 873 1035 156
 Line 911 874 1036 783
 Ring 1185 589
 Rectangle 1371 874 548 162
+Rectangle 1919 874 548 162

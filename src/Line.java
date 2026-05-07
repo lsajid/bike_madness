@@ -20,7 +20,7 @@ public class Line implements Drawable{
 
 	public void draw(Graphics g) {
         g.setColor(Color.BLACK);
-        g.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
+        g.drawLine((int)x1-Camera.x, (int)y1-Camera.y, (int)x2-Camera.x, (int)y2-Camera.y);
     }
 
 	public int getX() {return (int) this.x1;}

@@ -24,9 +24,18 @@ public Level getCurrent() {
 
 public void goNextLevel() {
 	this.current = Math.min(current+1, levels.length-1);
+	Game.player.reset();
 	Game.player.x = getCurrent().xStart;
 	Game.player.y = getCurrent().yStart;
 	Game.currentLevel = getCurrent();
 }
+public void goBackLevel() {
+	this.current = Math.max(current-1, 0);
+	Game.player.reset();
+	Game.player.x = getCurrent().xStart;
+	Game.player.y = getCurrent().yStart;
+	Game.currentLevel = getCurrent();
+}
+
 
 }

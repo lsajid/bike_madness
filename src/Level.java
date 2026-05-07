@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -82,7 +83,10 @@ public class Level {
         }
 	}
 	public void draw(Graphics g) {
-		 g.drawImage(img, 0, 0,Game.Width,Game.Height,null);
+//		g.drawImage(img, 0-Camera.x, 0-Camera.y,null);
+		g.setColor(new Color(105,190,255));
+		g.fillRect(0, 0, Game.Width, Game.Height);
+		g.setColor(Color.BLACK);
 		 for (int i = 0; i < levelObjects.size(); i++) {
 			 levelObjects.get(i).draw(g);
 		 }

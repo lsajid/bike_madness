@@ -31,18 +31,19 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	boolean pressingLT = false;
 	boolean pressingRT = false;
 	boolean pressingN = false;
+	boolean pressingM = false;
 	
 	int mx;
 	int my;
 	
-	static int physics_g = 4;
+	static int physics_g = 1;
 	
 	static Player player = new Player(0,0);
 	
 	
 	TitleScreen titleScreen = new TitleScreen("image/title.PNG", 800, 900);
 	ImageLayer sky = new ImageLayer("image/title.PNG", 0,0, 800, 900);
-	Camera camera = new Camera(0,0);
+	
 	
 	
 	static final int TITLE = 0;
@@ -85,7 +86,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 
 			currentLevel.draw(g);
 			player.draw(g);
-			dragRect.draw(g);
+			dragRect.drawAbsolute(g);
 			
 			
 		}
@@ -106,9 +107,12 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			if (pressingLT) player.moveLeft();
 			if (pressingRT) player.moveRight();
 			
-			// for development purposes can skip levels
-			if (pressingN) levelManager.goNextLevel();
+			Camera.x = (int) (player.x + player.width / 2 - Game.Width * 0.20);
+			Camera.y = player.y + player.height / 2 - Game.Height / 2;
 			
+			// for development purposes can skip levels
+			if (pressingM) levelManager.goNextLevel();
+			if(pressingN) levelManager.goBackLevel();
 			
 			player.update();
 			
@@ -128,6 +132,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 				}
 				if(player.isOnTop(curr)) {
 					playerGrounded = true;
+					player.currPlatform = curr;
 				}
 				
 			}
@@ -183,6 +188,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		if (code == KeyEvent.VK_LEFT)pressingLT = true;
 		if (code == KeyEvent.VK_RIGHT) pressingRT = true;
 		if (code == KeyEvent.VK_N) pressingN = true;
+		if (code == KeyEvent.VK_M) pressingM = true;
 		
 		//to pause or resume game using space button for pause
 		  if (code == KeyEvent.VK_SPACE) {
@@ -205,6 +211,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		if (code == KeyEvent.VK_RIGHT) pressingRT = false;
 		if (code == KeyEvent.VK_RIGHT) pressingRT = false;
 		if (code == KeyEvent.VK_N) pressingN = false;
+		if (code == KeyEvent.VK_M) pressingM = false;
 	}
 	public void keyTyped(KeyEvent e) {}
 
@@ -232,15 +239,13 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
-		this.mx = e.getX();
-		this.my = e.getY();
+	    this.mx = e.getX();
+	    this.my = e.getY();
 
 
-		    if (gameState == 0 && playButton.contains(mx, my)) {
-		        gameState = PLAYING; //starts the game
-		    }
-	System.out.println("X: "+ Integer.toString(e.getX())+ " Y: " + Integer.toString(e.getY()));	
+	    if (gameState == 0 && playButton.contains(mx, my)) {
+	        gameState = PLAYING;
+	    }
 	}
 
 
@@ -263,7 +268,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		 
 		dragRect = new Rect(mx,my,w,h);
 		
-		System.out.println("Rectangle X " + dragRect.x + " Y " + dragRect.y + " Width " + dragRect.width  + " Height " + dragRect.height  );
+		System.out.println("Rectangle " + dragRect.x + " " + dragRect.y + " " + dragRect.width  + " " + dragRect.height  );
 	
 	}
 
