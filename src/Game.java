@@ -52,8 +52,10 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 
 	int gameState = TITLE;
 	
-	Image buttonImage = Toolkit.getDefaultToolkit().getImage("image/play.PNG");;
+	Image buttonImage = Toolkit.getDefaultToolkit().getImage("image/play.PNG");
+	Image pauseButtonImage = Toolkit.getDefaultToolkit().getImage("image/pause_button.PNG");
 	Rect playButton;
+	Rect pauseButton;
 	
 	
 	// the operating system calls update which then calls paint
@@ -80,6 +82,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		}
 		else if (this.gameState == PAUSED) {
 //			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
+			drawPausedButton(g);
 		}
 		else {
 			
@@ -246,6 +249,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	    if (gameState == 0 && playButton.contains(mx, my)) {
 	        gameState = PLAYING;
 	    }
+	    if (gameState == PAUSED && pauseButton.contains(mx, my)) {
+	    	gameState = PLAYING;
+	    }
 	}
 
 
@@ -277,6 +283,18 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	public void mouseMoved(MouseEvent e) {
 	
 		
+	}
+	
+	private void drawPausedButton(Graphics g) {
+	    int buttonWidth = (int)(getWidth() * 0.3);
+	    int buttonHeight = (int)(getHeight() * 0.15);
+
+	    int x = (getWidth() - buttonWidth) / 2 ;
+	    int y = (getHeight() - buttonHeight) / 2 + 120;
+
+	    pauseButton = new Rect(x, y, buttonWidth, buttonHeight);
+
+	    g.drawImage(pauseButtonImage, x, y, buttonWidth, buttonHeight, null);
 	}
 	
 	private void drawPlayButton(Graphics g) {
