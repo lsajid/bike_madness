@@ -49,13 +49,16 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	static final int TITLE = 0;
 	static final int PLAYING = 1;
 	static final int PAUSED = 2;
+	static final int LEVEL_COMPLETE = 3;
 
 	int gameState = TITLE;
 	
 	Image buttonImage = Toolkit.getDefaultToolkit().getImage("image/play.PNG");
 	Image pauseButtonImage = Toolkit.getDefaultToolkit().getImage("image/pause_button.PNG");
+	Image nextLevelButtonImage = Toolkit.getDefaultToolkit().getImage("image/next_level_button.PNG");
 	Rect playButton;
 	Rect pauseButton;
+	Rect nextLevelButton;
 	
 	
 	// the operating system calls update which then calls paint
@@ -83,6 +86,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		else if (this.gameState == PAUSED) {
 //			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
 			drawPausedButton(g);
+		}
+		else if (this.gameState == LEVEL_COMPLETE) {
+			drawNextLevelButton(g);
 		}
 		else {
 			
@@ -151,6 +157,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		
 				if(player.isOnTop(currentLevel.finishLine)) {
 					levelManager.goNextLevel();
+					this.gameState = LEVEL_COMPLETE;
 				}
 			}
 			
@@ -252,6 +259,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	    if (gameState == PAUSED && pauseButton.contains(mx, my)) {
 	    	gameState = PLAYING;
 	    }
+	    if (gameState == LEVEL_COMPLETE && nextLevelButton.contains(mx, my)) {
+	    	gameState = PLAYING;
+	    }
 	}
 
 
@@ -283,6 +293,19 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	public void mouseMoved(MouseEvent e) {
 	
 		
+	}
+	
+	
+	private void drawNextLevelButton(Graphics g) {
+	    int buttonWidth = (int)(getWidth() * 0.3);
+	    int buttonHeight = (int)(getHeight() * 0.15);
+
+	    int x = (getWidth() - buttonWidth) / 2 ;
+	    int y = (getHeight() - buttonHeight) / 2 + 120;
+
+	    nextLevelButton = new Rect(x, y, buttonWidth, buttonHeight);
+
+	    g.drawImage(nextLevelButtonImage, x, y, buttonWidth, buttonHeight, null);
 	}
 	
 	private void drawPausedButton(Graphics g) {
