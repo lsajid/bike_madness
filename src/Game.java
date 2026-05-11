@@ -103,55 +103,55 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			//this code will execute 60 times a second
 			
 			if(this.gameState == PLAYING) {
-			
-			//find how the objects in the game will move
-			if (pressingUP)	player.wheelie();
-			if (pressingDN) player.wheelieEnd();
-			if (pressingLT) player.moveLeft();
-			if (pressingRT) player.moveRight();
-			
-			Camera.x = (int) (player.x + player.width / 2 - Game.Width * 0.20);
-			Camera.y = player.y + player.height / 2 - Game.Height / 2;
-			
-			// for development purposes can skip levels
-			if (pressingM) levelManager.goNextLevel();
-			if(pressingN) levelManager.goBackLevel();
-			
-			player.update();
-			
-			// collision detection
-			
-			
-			
-			//check if the player is on any of the ground platforms
-			boolean playerGrounded = false;
-			
-			
-			for(int i =0; i<currentLevel.ground.size();i++ ) {
-				Rect curr = currentLevel.ground.get(i);
 				
-				if(player.overlaps(curr)) {
-					curr.pushes(player);
-				}
-				if(player.isOnTop(curr)) {
-					playerGrounded = true;
-					player.currPlatform = curr;
+				//find how the objects in the game will move
+				if (pressingUP)	player.wheelie();
+				if (pressingDN) player.wheelieEnd();
+				if (pressingLT) player.moveLeft();
+				if (pressingRT) player.moveRight();
+				
+				Camera.x = (int) (player.x + player.width / 2 - Game.Width * 0.20);
+				Camera.y = player.y + player.height / 2 - Game.Height / 2;
+				
+				// for development purposes can skip levels
+				if (pressingM) levelManager.goNextLevel();
+				if(pressingN) levelManager.goBackLevel();
+				
+				player.update();
+				
+				// collision detection
+				
+				
+				
+				//check if the player is on any of the ground platforms
+				boolean playerGrounded = false;
+				
+				
+				for(int i =0; i<currentLevel.ground.size();i++ ) {
+					Rect curr = currentLevel.ground.get(i);
+					
+					if(player.overlaps(curr)) {
+						curr.pushes(player);
+					}
+					if(player.isOnTop(curr)) {
+						playerGrounded = true;
+						player.currPlatform = curr;
+					}
+					
 				}
 				
-			}
-			
-			player.grounded = playerGrounded;
-			
-			
-			for (int i=0;i< currentLevel.ramps.size();i++) {
-				Line ramp = currentLevel.ramps.get(i);
-				player.rideRamp(ramp.x1, ramp.y1, ramp.x2, ramp.y2);
-			}	
-
+				player.grounded = playerGrounded;
+				
+				
+				for (int i=0;i< currentLevel.ramps.size();i++) {
+					Line ramp = currentLevel.ramps.get(i);
+					player.rideRamp(ramp.x1, ramp.y1, ramp.x2, ramp.y2);
+				}	
 	
-			if(player.isOnTop(currentLevel.finishLine)) {
-				levelManager.goNextLevel();
-			}
+		
+				if(player.isOnTop(currentLevel.finishLine)) {
+					levelManager.goNextLevel();
+				}
 			}
 			
 			
