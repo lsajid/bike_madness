@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Rect implements Drawable {
@@ -7,6 +8,8 @@ public class Rect implements Drawable {
     int width;
     int height;
     
+    boolean fill =false;
+    Color color = Color.BLACK;
     double oldY;
     
     double vx;
@@ -41,9 +44,11 @@ public class Rect implements Drawable {
     // Quicker Draw Method
 
     public void draw(Graphics g) {
-        g.drawRect(x-Camera.x, y-Camera.y, width, height);
+    	g.setColor(color);
+    	if (this.fill) {g.fillRect(x-Camera.x, y-Camera.y, width, height);}
+    	else g.drawRect(x-Camera.x, y-Camera.y, width, height);
     }
-    
+
     public void drawAbsolute(Graphics g) {
         g.drawRect(x, y, width, height);
     }

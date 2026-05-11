@@ -83,7 +83,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		}
 		else {
 			
-
+ 
 			currentLevel.draw(g);
 			player.draw(g);
 			dragRect.drawAbsolute(g);
@@ -268,7 +268,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		 
 		dragRect = new Rect(mx,my,w,h);
 		
-		System.out.println("Rectangle " + dragRect.x + " " + dragRect.y + " " + dragRect.width  + " " + dragRect.height  );
+		System.out.println("Rectangle " + (dragRect.x+Camera.x) + " " + (dragRect.y+Camera.y) + " " + dragRect.width  + " " + dragRect.height  );
 	
 	}
 

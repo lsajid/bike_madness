@@ -55,6 +55,7 @@ public class Level {
             	// 0 Means rectangle
             	if (objType == Rectangle) {
             		Rect r = new Rect(objParams);
+            		r.fill = true;
             		levelObjects.add(r);
             		ground.add(r);
             	}
@@ -77,15 +78,19 @@ public class Level {
         	//The final object in the rect.txt must be a rectangle indicating the end of level
         	
         	this.finishLine= (Rect) levelObjects.get(levelObjects.size()-1);
-
+        	this.finishLine.color = Color.RED;
+        	
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         }
 	}
 	public void draw(Graphics g) {
-//		g.drawImage(img, 0-Camera.x, 0-Camera.y,null);
-		g.setColor(new Color(105,190,255));
+		g.setColor(new Color(13,13,51));
 		g.fillRect(0, 0, Game.Width, Game.Height);
+		for(int i =0;i<20;i++) {
+			g.drawImage(img, i*1920 -Camera.x, 0 -Camera.y,1920,1080,null);
+			
+		}
 		g.setColor(Color.BLACK);
 		 for (int i = 0; i < levelObjects.size(); i++) {
 			 levelObjects.get(i).draw(g);
