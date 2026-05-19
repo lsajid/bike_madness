@@ -28,6 +28,8 @@ public class Level {
 	ArrayList<Rect> ground = new ArrayList<Rect>();
 	
 	static Color[] levelColor = new Color[] {new Color(105,190,255),new Color(13,13,51),new Color(105,190,255)};
+	static Image Tutorial = Toolkit.getDefaultToolkit().getImage("image/Tutorial.png");
+	
 	Rect finishLine ;
 	
 	Laser laser;
@@ -104,6 +106,11 @@ public class Level {
 		 for (int i = 0; i < levelObjects.size(); i++) {
 			 levelObjects.get(i).draw(g);
 		 }
-		 
+		 if(this.levelName.equals("level1")) {
+
+			    laser = new Laser(Camera.x-200, Camera.y, 50, 1000, 12,Laser.VERTICAL);
+			
+			    g.drawImage(Tutorial,0-Camera.x,0,null);
+			}
 	}
 }
