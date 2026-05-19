@@ -49,7 +49,25 @@ public class Player extends Rect{
 		if (vx < max_speed) vx += acceleration;
 		
 	}
+
+public void forceLeft() {
+	this.x -= 10;
 	
+}
+	
+public void forceRight() {
+	this.x += 10;
+	
+}
+public void forceUp() {
+	this.y -= 10;
+	
+}
+public void forceDown() {
+	this.y += 10;
+	
+}
+
 	public void wheelie() {
 		this.action = WHEELIE;
 		wheelie_end.reset();
@@ -74,6 +92,7 @@ public class Player extends Rect{
 		else {
 			 vy = 0.0; 
 		}
+		
 		this.x += vx;
 		this.y+=vy;
 		

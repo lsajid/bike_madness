@@ -32,7 +32,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	boolean pressingRT = false;
 	boolean pressingN = false;
 	boolean pressingM = false;
-	
+	boolean pressingC = false;
 	int mx;
 	int my;
 	
@@ -50,6 +50,8 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	static final int PLAYING = 1;
 	static final int PAUSED = 2;
 
+	boolean creativeMode =false;
+	
 	int gameState = TITLE;
 	
 	Image buttonImage = Toolkit.getDefaultToolkit().getImage("image/play.PNG");
@@ -109,14 +111,14 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			
 			if(this.gameState == PLAYING) {
 			
+			if(pressingC)this.creativeMode = !creativeMode;
+				
 			//find how the objects in the game will move
+			if(!creativeMode) {
 			if (pressingUP)	player.wheelie();
 			if (pressingDN) player.wheelieEnd();
 			if (pressingLT) player.moveLeft();
 			if (pressingRT) player.moveRight();
-			
-			Camera.x = (int) (player.x + player.width / 2 - Game.Width * 0.20);
-			Camera.y = player.y + player.height / 2 - Game.Height / 2;
 			
 			// for development purposes can skip levels
 			if (pressingM) levelManager.goNextLevel();
@@ -125,7 +127,17 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			player.update();
 			
 			// collision detection
+			} 
+			else {
+				if (pressingUP)	player.forceUp();
+				if (pressingDN) player.forceDown();
+				if (pressingLT) player.forceLeft();
+				if (pressingRT) player.forceRight();
+				}
+			Camera.x = (int) (player.x + player.width / 2 - Game.Width * 0.20);
+			Camera.y = player.y + player.height / 2 - Game.Height / 2;
 			
+		
 			if(currentLevel.laser != null) {
 
 			    currentLevel.laser.update();
@@ -209,6 +221,8 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		if (code == KeyEvent.VK_RIGHT) pressingRT = true;
 		if (code == KeyEvent.VK_N) pressingN = true;
 		if (code == KeyEvent.VK_M) pressingM = true;
+		if (code == KeyEvent.VK_C) pressingC = true;
+		
 		
 		//to pause or resume game using space button for pause
 		  if (code == KeyEvent.VK_SPACE) {
@@ -232,6 +246,7 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 		if (code == KeyEvent.VK_RIGHT) pressingRT = false;
 		if (code == KeyEvent.VK_N) pressingN = false;
 		if (code == KeyEvent.VK_M) pressingM = false;
+		if (code == KeyEvent.VK_C) pressingC = false;
 	}
 	public void keyTyped(KeyEvent e) {}
 
