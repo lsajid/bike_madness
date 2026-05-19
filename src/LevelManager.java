@@ -12,6 +12,7 @@ public void loadLevels() {
 	levels = new Level [numLevel];
 	for (int i = 0 ;i < numLevel; i++) {
 		levels[i] = new Level("level" + (i+1));
+		levels[i].levelNumber=i;
 	}
 	
 	Game.player.x = levels[0].xStart;

@@ -88,6 +88,11 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			
  
 			currentLevel.draw(g);
+			
+			 //laser
+			if(currentLevel.laser != null) {
+			    currentLevel.laser.draw(g);
+			}//laser
 			player.draw(g);
 			dragRect.drawAbsolute(g);
 			
@@ -115,13 +120,25 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			
 			// for development purposes can skip levels
 			if (pressingM) levelManager.goNextLevel();
-			if(pressingN) levelManager.goBackLevel();
+			if (pressingN) levelManager.goBackLevel();
 			
 			player.update();
 			
 			// collision detection
 			
-			
+			if(currentLevel.laser != null) {
+
+			    currentLevel.laser.update();
+
+			    if(currentLevel.laser.hits(player)) {
+
+			        player.reset();
+			        currentLevel.laser.reset();
+
+			        player.x = currentLevel.xStart;
+			        player.y = currentLevel.yStart;
+			    }
+			}//laser
 			
 			//check if the player is on any of the ground platforms
 			boolean playerGrounded = false;

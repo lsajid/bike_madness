@@ -17,6 +17,7 @@ public class Level {
 	int xStart;
 	int yStart;
 	
+	int levelNumber;
 	
 	int Rectangle = 0;
 	int Line = 1;
@@ -26,13 +27,21 @@ public class Level {
 	ArrayList<Line> ramps = new ArrayList <Line>();
 	ArrayList<Rect> ground = new ArrayList<Rect>();
 	
-	
+	static Color[] levelColor = new Color[] {new Color(105,190,255),new Color(13,13,51),new Color(105,190,255)};
 	Rect finishLine ;
+	
+	Laser laser;
+	
 	
 	public Level(String levelName) {
 		this.levelName = levelName;
 		this.img = Toolkit.getDefaultToolkit().getImage("levels/" + levelName +"/"+ levelName + ".png");
+		//laser
+		if(this.levelName.equals("level3")) {
+
+		    laser = new Laser(Camera.x-200, Camera.y, 50, 1000, 12,Laser.VERTICAL);
 		
+		}//laser
 		load();
 	}
 	
@@ -85,7 +94,7 @@ public class Level {
         }
 	}
 	public void draw(Graphics g) {
-		g.setColor(new Color(13,13,51));
+		g.setColor(levelColor[this.levelNumber]);
 		g.fillRect(0, 0, Game.Width, Game.Height);
 		for(int i =0;i<20;i++) {
 			g.drawImage(img, i*1920 -Camera.x, 0 -Camera.y,1920,1080,null);
