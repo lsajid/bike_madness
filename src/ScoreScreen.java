@@ -14,7 +14,14 @@ public class ScoreScreen {
 
     static Button retryLevel = new Button("image/retry_button.png", 0, 0, btnW, btnH);
     static Button nextLevel  = new Button("image/next_level_button.png", 0, 0, btnW, btnH);
-
+    
+    static int FAILED = 0;
+    static int PASSED = 1;
+    static int state = 0;
+    
+    static String SuccessMessage = "Level Complete!";
+    static String FailureMessage = "Level Failed :(";
+    
     public static void draw(Graphics g) {
         g.drawImage(background, 0, 0, Game.Width, Game.Height, null);
 
@@ -37,12 +44,18 @@ public class ScoreScreen {
         int textX = (Game.Width - fm.stringWidth(timeStr)) / 2;
         int textY = btnY - 60;
 
-        g.setColor(new Color(0, 0, 0, 150));
+        g.setColor(Color.BLACK);
         g.drawString(timeStr, textX + 4, textY + 4);
+        
+        if(state == PASSED)  g.drawString(SuccessMessage,(Game.Width - fm.stringWidth(SuccessMessage)) / 2, 64 + fm.getHeight());
+        else if(state == FAILED)  g.drawString(FailureMessage, (Game.Width - fm.stringWidth(FailureMessage)) / 2, 64 + fm.getHeight());
+        
         g.setColor(Color.WHITE);
         g.drawString(timeStr, textX, textY);
 
         retryLevel.draw(g);
+        if(state == PASSED) {
         nextLevel.draw(g);
+        }
     }
 }

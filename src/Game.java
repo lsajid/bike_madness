@@ -183,11 +183,13 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	
 			if(player.isOnTop(currentLevel.finishLine)) {
 				gameState = BETWEEN_LEVELS;
+				ScoreScreen.state = ScoreScreen.PASSED;
 //				levelManager.goNextLevel();
 			}
 
 			if(player.y + player.height > currentLevel.minY + 1000) {
 				gameState = BETWEEN_LEVELS;
+				ScoreScreen.state = ScoreScreen.FAILED;
 			}
 			
 			
