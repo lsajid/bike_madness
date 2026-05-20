@@ -16,7 +16,9 @@ public class Level {
 	Image img ;
 	int xStart;
 	int yStart;
+	int minY;
 	
+	double seconds =0.0;
 	int levelNumber;
 	
 	int Rectangle = 0;
@@ -39,11 +41,11 @@ public class Level {
 		this.levelName = levelName;
 		this.img = Toolkit.getDefaultToolkit().getImage("levels/" + levelName +"/"+ levelName + ".png");
 		//laser
-		if(this.levelName.equals("level3")) {
-
-		    laser = new Laser(Camera.x-200, Camera.y, 50, 1000, 12,Laser.VERTICAL);
-		
-		}//laser
+//		if(this.levelName.equals("level3")) {
+//
+//		    laser = new Laser(Camera.x-200, Camera.y, 50, 1000, 12,Laser.VERTICAL);
+//		
+//		}//laser
 		load();
 	}
 	
@@ -69,6 +71,12 @@ public class Level {
             		r.fill = true;
             		levelObjects.add(r);
             		ground.add(r);
+            		if(ground.size() == 1) {this.minY = r.y + r.height;}
+            		else {
+            			this.minY = Math.max(this.minY, r.y + r.height);
+            		}
+            		
+            	
             	}
             	
             	else if (objType == Line) {

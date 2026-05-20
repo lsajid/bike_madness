@@ -69,13 +69,14 @@ public void forceDown() {
 }
 
 	public void wheelie() {
-		this.action = WHEELIE;
-		wheelie_end.reset();
+		if(!grounded) {
+		this.a += .1;
+		}
 	}
 	
 	public void  wheelieEnd() {
-		this.action = WHEELIE_END;
-		wheelie.reset();
+		if(!grounded) {
+		this.a-=.1;}
 	}
 	
 	public void jump() {}
@@ -91,6 +92,7 @@ public void forceDown() {
 		}
 		else {
 			 vy = 0.0; 
+			 this.a = Math.max(0, a-.05);
 		}
 		
 		this.x += vx;
@@ -99,39 +101,46 @@ public void forceDown() {
 	}
 	
 	
-
 	public void rideRamp(double lineX1, double lineY1, double lineX2, double lineY2) {
-	// the parameters are the line coordinates
-    
-    double centerX = x + width / 2.0;// Calculates the center of the soldier
+		    double centerX = x + width / 2.0;
 
-    //checks if the soldier is  above the ramp
-    if (centerX >= Math.min(lineX1, lineX2) && centerX <= Math.max(lineX1, lineX2)) {
-        
-        double slope = (lineY2 - lineY1) / (lineX2 - lineX1);
-        double rampY = slope * (centerX - lineX1) + lineY1;
+		    if (centerX >= Math.min(lineX1, lineX2) && centerX <= Math.max(lineX1, lineX2)) {
+		        double slope = (lineY2 - lineY1) / (lineX2 - lineX1);
+		        double rampY = slope * (centerX - lineX1) + lineY1;
 
-        // Checks if we are currently touching or have passed through the ramp
-        
-       
-        if (y + height >= rampY - 2 && height <= rampY + 2) {
-            
-        	double A = (lineX2 - lineX1);
-        	double O = (currPlatform.y -lineY2 );
-        
-        	this.a = Math.atan(O/A) ;
-        	this.onRamp = true;
-//        	System.out.println("Riding ramp theta = " + this.a);
-//        	
-//        	System.out.println("Len of O: " + O + "Len of A: " + A);
-        	this.vx = this.vx * Math.cos(this.a);
-        	this.vy = -this.vy* Math.sin(this.a);
- 
-            this.y = (int) (rampY - height);
-           
-        }
-    }
-}
+		        // FIX: was "height <= rampY + 2" — should be y + height
+		        if (y + height >= rampY - 4) {
+		            // Calculate ramp angle from horizontal
+		            double dx = lineX2 - lineX1;
+		            double dy = lineY2 - lineY1;
+		            double targetAngle = Math.atan2(dy, dx); // angle of ramp surface
+
+		            // Smooth angle interpolation instead of snapping
+		            this.a += (targetAngle - this.a) * 0.25;
+
+		            // FIX: only redirect velocity ONCE when landing on ramp,
+		            // not every frame (which kills speed). Instead, project
+		            // velocity onto the ramp direction.
+		            double speed = Math.sqrt(vx * vx + vy * vy);
+		            double rampDirX = Math.cos(targetAngle);
+		            double rampDirY = Math.sin(targetAngle);
+
+		            // Dot product: how much velocity is already along the ramp
+		            double dot = vx * rampDirX + vy * rampDirY;
+
+		            // Blend current velocity toward ramp-aligned velocity smoothly
+		            double blend = 0.3; // higher = snappier, lower = floatier
+		            vx += (dot * rampDirX - vx) * blend;
+		            vy += (dot * rampDirY - vy) * blend;
+
+		            // Surface lock: keep player sitting on ramp surface
+		            this.y = (int)(rampY - height);
+		            this.grounded = true;
+		            this.onRamp = true;
+		        }
+		    }
+		}
+
 
 public void reset() {
 	this.a =0.0;
@@ -139,10 +148,27 @@ public void reset() {
 	this.vx = 0.0;
 	this.currPlatform = null;
 }
-	public void draw(Graphics g) {
-		
-		g.drawImage(animations[action].nextImage(),x-Camera.x,y-Camera.y,width,height,null);
-		
-		super.draw(g);
-	}
+public void draw(Graphics g) {
+    Graphics2D g2d = (Graphics2D) g;
+
+    // Save the original transform
+    AffineTransform oldTransform = g2d.getTransform();
+
+    // Calculate center of player in screen space
+    int screenX = x - Camera.x;
+    int screenY = y - Camera.y;
+    int cx = screenX + width / 2;
+    int cy = screenY + height / 2;
+
+    // Rotate around the center of the player
+    g2d.rotate(this.a, cx, cy);
+
+    // Draw the animation frame as normal
+    g2d.drawImage(animations[action].nextImage(), screenX, screenY, width, height, null);
+
+    // Restore transform so nothing else is affected
+    g2d.setTransform(oldTransform);
+
+    super.draw(g);
+}
 }

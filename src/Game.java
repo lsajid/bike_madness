@@ -40,15 +40,13 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	
 	static Player player = new Player(0,0);
 	
-	
 	TitleScreen titleScreen = new TitleScreen("image/title.PNG", 800, 900);
 	ImageLayer sky = new ImageLayer("image/title.PNG", 0,0, 800, 900);
-	
-	
 	
 	static final int TITLE = 0;
 	static final int PLAYING = 1;
 	static final int PAUSED = 2;
+	static final int BETWEEN_LEVELS = 3;
 
 	boolean creativeMode =false;
 	
@@ -86,6 +84,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 //			titleScreen.draw(g, getWidth(), getHeight());  // scale to current screen size
 			drawPausedButton(g);
 		}
+		else if (this.gameState == BETWEEN_LEVELS) {
+			ScoreScreen.draw(g);
+		}
 		else {
 			
  
@@ -112,7 +113,9 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 			if(this.gameState == PLAYING) {
 			
 			if(pressingC)this.creativeMode = !creativeMode;
-				
+			
+			currentLevel.seconds += 1.0/60.0;
+			
 			//find how the objects in the game will move
 			if(!creativeMode) {
 			if (pressingUP)	player.wheelie();
@@ -179,8 +182,15 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 
 	
 			if(player.isOnTop(currentLevel.finishLine)) {
-				levelManager.goNextLevel();
+				gameState = BETWEEN_LEVELS;
+//				levelManager.goNextLevel();
 			}
+
+			if(player.y + player.height > currentLevel.minY + 1000) {
+				gameState = BETWEEN_LEVELS;
+			}
+			
+			
 			}
 			
 			
@@ -284,6 +294,15 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 	    if (gameState == PAUSED && pauseButton.contains(mx, my)) {
 	    	gameState = PLAYING;
 	    }
+	    if (gameState == BETWEEN_LEVELS && ScoreScreen.retryLevel.contains(mx, my)) {
+	        levelManager.reset();
+	        gameState = PLAYING;
+	        
+	    }
+	    if (gameState == BETWEEN_LEVELS && ScoreScreen.nextLevel.contains(mx, my)) {
+	        levelManager.goNextLevel();
+	        gameState = PLAYING;
+	    }
 	}
 
 
@@ -313,7 +332,19 @@ public class Game extends Applet implements Runnable, KeyListener,MouseListener,
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-	
+		
+		int mx = e.getX();
+		int my = e.getY();
+		 ScoreScreen.retryLevel.hover = false;
+		 ScoreScreen.nextLevel.hover = false;
+		
+	    if (gameState == BETWEEN_LEVELS && ScoreScreen.retryLevel.contains(mx, my)) {
+	        ScoreScreen.retryLevel.hover = true;
+	   
+	    }
+	    if (gameState == BETWEEN_LEVELS && ScoreScreen.nextLevel.contains(mx, my)) {
+	    	 ScoreScreen.nextLevel.hover = true;
+	    }
 		
 	}
 	

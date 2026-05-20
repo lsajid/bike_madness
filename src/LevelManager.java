@@ -30,6 +30,14 @@ public void goNextLevel() {
 	Game.player.y = getCurrent().yStart;
 	Game.currentLevel = getCurrent();
 }
+
+public void reset() {
+	Game.player.reset();
+	Game.player.x = getCurrent().xStart;
+	Game.player.y = getCurrent().yStart;
+	getCurrent().seconds = 0;
+	
+}
 public void goBackLevel() {
 	this.current = Math.max(current-1, 0);
 	Game.player.reset();

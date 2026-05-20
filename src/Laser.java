@@ -24,7 +24,7 @@ public class Laser extends Rect {
     }
 
     public void update() {
-    	System.out.println(orientation);
+
     	
     	if(orientation == HORIZONTAL) {
 
